@@ -1,17 +1,35 @@
+# Build stage
 FROM golang:1.21-alpine AS builder
 
 WORKDIR /app
-COPY . .
+
+# Copy go mod files
+COPY go.mod go.sum ./
 RUN go mod download
+
+# Copy source code
+COPY . .
+
+# Build the binary
 RUN CGO_ENABLED=0 GOOS=linux go build -o mtr-tool
 
+# Final stage
 FROM alpine:latest
 
-# Install mtr
-RUN apk add --no-cache mtr
+# Install mtr package
+RUN apk add --no-cache mtr sudo
 
-WORKDIR /app
-COPY --from=builder /app/mtr-tool .
+# Copy binary from builder
+COPY --from=builder /app/mtr-tool /usr/local/bin/
 
-EXPOSE 8080
-CMD ["./mtr-tool"]
+# Create non-root user
+RUN adduser -D appuser && \
+    echo "appuser ALL=(ALL) NOPASSWD: /usr/sbin/mtr" >> /etc/sudoers
+
+# Switch to non-root user
+USER appuser
+
+# Set MTR path for the application
+ENV MTR_PATH=/usr/sbin/mtr
+
+ENTRYPOINT ["mtr-tool"]

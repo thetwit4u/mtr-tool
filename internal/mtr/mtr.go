@@ -4,15 +4,27 @@ import (
 	"context"
 	"fmt"
 	"math"
+	"os"
 	"os/exec"
 	"strconv"
 	"strings"
 )
 
-const (
-	mtrPath  = "/opt/homebrew/sbin/mtr"
-	sudoPath = "/usr/bin/sudo"
+var (
+	// Default paths
+	defaultMTRPath = "/opt/homebrew/sbin/mtr"
+	sudoPath       = "/usr/bin/sudo"
 	
+	// Get MTR path from environment or use default
+	mtrPath = func() string {
+		if path := os.Getenv("MTR_PATH"); path != "" {
+			return path
+		}
+		return defaultMTRPath
+	}()
+)
+
+const (
 	// ANSI color codes
 	colorReset  = "\033[0m"
 	colorRed    = "\033[31m"
