@@ -33,3 +33,6 @@ USER appuser
 ENV MTR_PATH=/usr/sbin/mtr
 
 ENTRYPOINT ["mtr-tool"]
+
+# Note: Run this container with --network host to get accurate network metrics:
+# docker run --network host mtr-tool [args]

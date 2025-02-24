@@ -91,15 +91,28 @@ The actual MTR output will be displayed in the server's console.
    docker build -t mtr-tool .
    ```
 
-2. Run in server mode:
+2. Run in CLI mode:
    ```bash
+   # For accurate network metrics, use host network mode:
+   docker run --network host --cap-add=NET_RAW --cap-add=NET_ADMIN mtr-tool -host=google.com -count=10
+
+   # Or with default bridge network (note: first hop will be Docker's bridge):
+   docker run --cap-add=NET_RAW --cap-add=NET_ADMIN mtr-tool -host=google.com -count=10
+   ```
+
+3. Run in server mode:
+   ```bash
+   # For accurate network metrics (port 8080 on host):
+   docker run --network host --cap-add=NET_RAW --cap-add=NET_ADMIN mtr-tool -server
+
+   # Or with bridge network and port mapping:
    docker run --cap-add=NET_RAW --cap-add=NET_ADMIN -p 8080:8080 mtr-tool -server
    ```
 
-   Or CLI mode:
-   ```bash
-   docker run --cap-add=NET_RAW --cap-add=NET_ADMIN mtr-tool -host=google.com -count=10
-   ```
+Note: 
+- When using `--network host`, do not use `-p` port mapping as it's not compatible with host network mode
+- When using the default bridge network, the first hop will be Docker's network bridge (usually 172.17.0.1)
+- The `--cap-add=NET_RAW --cap-add=NET_ADMIN` capabilities are required for MTR to function properly
 
 ## Error Handling
 

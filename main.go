@@ -28,10 +28,9 @@ func main() {
 	)
 	flag.Parse()
 
-	// Configure logging
-	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stdout, TimeFormat: time.RFC3339})
-
 	if *serverMode {
+		// Configure logging for server mode
+		log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stdout, TimeFormat: time.RFC3339})
 		runServer(*port)
 	} else {
 		runCLI(*hostname, *count, *report)
@@ -44,7 +43,7 @@ func runServer(port string) {
 	r.HandleFunc("/mtr", api.HandleMTR).Methods("GET")
 
 	// Configure server
-	addr := ":" + port
+	addr := "0.0.0.0:" + port
 	srv := &http.Server{
 		Addr:         addr,
 		Handler:      r,
