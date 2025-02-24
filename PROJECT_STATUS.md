@@ -97,7 +97,7 @@ sudo ./mtr-tool -server -port=8080
 sudo ./mtr-tool -host=google.com -count=10 -report=true
 ```
 
-## Latest Updates (2025-02-23)
+## Latest Updates (2025-02-24)
 
 ### Completed Features
 - ✅ Basic MTR command wrapper implementation
@@ -107,6 +107,8 @@ sudo ./mtr-tool -host=google.com -count=10 -report=true
 - ✅ Summary generation with worst packet loss and highest latency stats
 - ✅ Project structure with Go modules
 - ✅ Git repository setup with remote at github.com:thetwit4u/mtr-tool.git
+- ✅ Docker support with proper networking configuration
+- ✅ Environment variable support for MTR path customization
 
 ### Fixed Issues
 - ✅ Fixed sent count to show total attempts instead of successful pings
@@ -114,20 +116,30 @@ sudo ./mtr-tool -host=google.com -count=10 -report=true
 - ✅ Fixed handling of unknown hops (???)
 - ✅ Removed duplicate last hop entries
 - ✅ Fixed IPv6 address display in output
+- ✅ Fixed server logging to only show in server mode
+- ✅ Fixed Docker networking issues
+  - ✅ Added host network mode support
+  - ✅ Fixed IPv4/IPv6 binding in server mode
+  - ✅ Added proper capabilities for MTR
 
 ### Code Quality
 - ✅ Removed debug logging
 - ✅ Added .gitignore for project documentation
 - ✅ Clean code organization with internal packages
+- ✅ Improved documentation
+  - ✅ Added environment variables section
+  - ✅ Added Docker networking guide
+  - ✅ Added usage examples for different modes
 
-## Next Steps
+### Next Steps
 - [ ] Add tests for parsing and formatting functions
 - [ ] Add documentation for installation and usage
 - [ ] Consider adding configuration file support
 - [ ] Consider adding output format options (JSON, CSV)
+- [ ] Add health check endpoint in server mode
+- [ ] Add metrics endpoint for monitoring
 
 ## Notes
 - Core functionality is complete and working
-- Focus now on improving output readability and interpretation
-- Consider adding configuration options for thresholds
-- Plan to add more detailed documentation for MTR interpretation
+- Docker support is now fully functional with proper networking options
+- Environment configuration is flexible through MTR_PATH variable
