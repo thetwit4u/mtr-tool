@@ -21,6 +21,15 @@ A versatile tool that provides both a REST API and CLI interface for running MTR
 - MTR command-line tool installed on the system
 - Root privileges (sudo access)
 
+## Environment Variables
+
+The following environment variables can be used to customize the tool's behavior:
+
+- `MTR_PATH`: Path to the MTR executable
+  - Default on macOS (Homebrew): `/opt/homebrew/sbin/mtr`
+  - Default in Docker: `/usr/sbin/mtr`
+  - Example: `MTR_PATH=/usr/local/bin/mtr ./mtr-tool -host=google.com`
+
 ## Installation
 
 ### Local Development
